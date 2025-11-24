@@ -56,10 +56,12 @@ public class MainController {
     private void cargarCopias(Usuario usuario) {
         try {
             List<Copia> copias = copiaDao.listarPorUsuario(usuario);
+            System.out.println("Copias encontradas para " + usuario.getNombreUsuario() +
+                    ": " + copias.size());
             tvCopias.setItems(FXCollections.observableArrayList(copias));
         } catch (Exception e) {
             e.printStackTrace();
-            // aquí luego podemos mostrar un Alert de error si quieres
+
         }
     }
 

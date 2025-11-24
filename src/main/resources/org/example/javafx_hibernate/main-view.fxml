@@ -22,7 +22,7 @@
         </ToolBar>
     </top>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tvCopias" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colTitulo" prefWidth="75.0" text="Titulo" />
           <TableColumn fx:id="colEstado" prefWidth="75.0" text="Estado" />
