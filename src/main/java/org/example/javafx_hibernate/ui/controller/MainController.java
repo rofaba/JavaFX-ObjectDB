@@ -1,5 +1,6 @@
 package org.example.javafx_hibernate.ui.controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,9 @@ public class MainController {
     @FXML
     private TableColumn<Copia, String> colSoporte;
 
+    @FXML
+    private TableColumn<Copia, Integer> colCantidad;
+
 
     private final CopiaDao copiaDao = new CopiaRepository();
 
@@ -51,6 +55,10 @@ public class MainController {
         colSoporte.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getSoporte()));
 
+        colCantidad.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getCantidad()).asObject());
+
+        //cargarCopiasUsuarioActual();
         // Usuario logueado desde AuthService
         Usuario u = MainApp.getAuthService().getUsuarioActual();
         if (u != null) {
@@ -68,7 +76,7 @@ public class MainController {
 
     }
 
-    private void cargarCopias(Usuario usuario) {
+    protected void cargarCopias(Usuario usuario) {
         try {
             List<Copia> copias = copiaDao.listarPorUsuario(usuario);
             System.out.println("Copias encontradas para " + usuario.getNombreUsuario() +
@@ -139,12 +147,26 @@ public class MainController {
     }
     @FXML
     private void onNuevaCopia() {
-        // De momento solo para que no reviente
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Funcionalidad 'Nueva copia' aún no implementada.");
-        alert.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/javafx_hibernate/nueva-copia-view.fxml")
+            );
+            Parent root = loader.load();
+
+            NuevaCopiaController controller = loader.getController();
+            controller.setMainController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Nueva copia");
+            stage.setScene(new Scene(root));
+            stage.initOwner(tvCopias.getScene().getWindow());
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     @FXML
     private void onEditarCopia() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -50,6 +50,9 @@
 
                 <Label text="Soporte:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
                 <Label fx:id="lblSoporte" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label text="Cantidad disponible:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <Label fx:id="lblCantidad" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
             </children>
         </GridPane>
     </center>

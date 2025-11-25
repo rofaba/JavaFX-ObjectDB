@@ -23,6 +23,9 @@ public class DetalleCopiaController {
     @FXML
     private Label lblSoporte;
 
+    @FXML
+    private Label lblCantidad;
+
     private Copia copia;
 
     public void setCopia(Copia copia) {

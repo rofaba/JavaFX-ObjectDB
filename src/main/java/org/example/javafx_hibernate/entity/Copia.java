@@ -24,6 +24,9 @@ public class Copia {
     @Column(nullable = false)
     private String soporte;
 
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad = 1;
+
     // Getters y setters
     public Integer getId() { return id; }
 
@@ -38,4 +41,12 @@ public class Copia {
 
     public String getSoporte() { return soporte; }
     public void setSoporte(String soporte) { this.soporte = soporte; }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
 }
