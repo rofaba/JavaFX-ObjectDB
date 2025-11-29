@@ -16,6 +16,7 @@ public class Pelicula {
     private String titulo;
     private String genero;
     private Integer anio;
+    private String imagen; // ruta relativa dentro de resources, p.ej. "/images/peliculas/inception.jpg"
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
@@ -45,4 +46,6 @@ public class Pelicula {
 
     public Set<Copia> getCopias() { return copias; }
     public void setCopias(Set<Copia> copias) { this.copias = copias; }
+    public String getImagen() { return imagen; }
+    public void setImagen(String imagen) { this.imagen = imagen; }
 }

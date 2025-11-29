@@ -29,7 +29,6 @@ public class NuevaCopiaController {
 
     private Copia copiaEnEdicion;   // null = modo NUEVA, no null = modo EDITAR
 
-    // Para poder pedir al MainController que recargue la tabla
     private MainController mainController;
 
     public void setMainController(MainController mainController) {
@@ -70,7 +69,7 @@ public class NuevaCopiaController {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
 
-            // 1. Buscar película por título
+            // Buscar película por título
             Query<Pelicula> queryPelicula = session.createQuery(
                     "FROM Pelicula p WHERE p.titulo = :titulo", Pelicula.class);
             queryPelicula.setParameter("titulo", titulo);
@@ -82,11 +81,10 @@ public class NuevaCopiaController {
                 return;
             }
 
-            // --- Lógica de Edición vs. Creación/Agrupación ---
+            // Edición vs. Creación
             if (copiaEnEdicion != null) {
-                // Modo EDICIÓN (Problema 2: Guardaba como nuevo)
 
-                // session.merge() es más seguro cuando el objeto viene de otra sesión
+                // session.merge()
                 Copia copiaParaActualizar = (Copia) session.merge(copiaEnEdicion);
 
                 // Solo se actualizan los campos modificables
@@ -97,7 +95,6 @@ public class NuevaCopiaController {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Copia actualizada correctamente.");
 
             } else {
-                // Modo NUEVA copia (Problema 1: No agrupaba)
 
                 // Buscar si ya existe una copia idéntica (Película, Usuario, Estado, Soporte)
                 Query<Copia> copiaQuery = session.createQuery(
@@ -113,13 +110,13 @@ public class NuevaCopiaController {
                 Copia copiaExistente = copiaQuery.uniqueResult();
 
                 if (copiaExistente != null) {
-                    // Existe: Aumentamos la cantidad
+                    // Si existe aumentamos la cantidad
                     copiaExistente.setCantidad(copiaExistente.getCantidad() + cantidad);
                     session.update(copiaExistente);
                     mostrarAlerta(Alert.AlertType.INFORMATION,
                             "La copia ya existía. Cantidad aumentada a " + copiaExistente.getCantidad() + ".");
                 } else {
-                    // No existe: Creamos una nueva
+                    // Si no existe creamos una nueva
                     Copia nuevaCopia = new Copia();
                     nuevaCopia.setPelicula(pelicula);
                     nuevaCopia.setUsuario(usuario);
@@ -172,7 +169,7 @@ public class NuevaCopiaController {
 
         // Rellenar campos con los datos de la copia seleccionada
         txtTitulo.setText(copia.getPelicula().getTitulo());
-        txtTitulo.setDisable(true);  // No permitir cambiar película en edición
+        txtTitulo.setDisable(true);  // No permite cambiar película en edición
 
         cbEstado.setValue(copia.getEstado());
         cbSoporte.setValue(copia.getSoporte());
