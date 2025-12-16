@@ -25,10 +25,11 @@
                      -fx-background-radius: 5;"/>
             <Pane HBox.hgrow="ALWAYS">
             <children>
-               <Label fx:id="lblBienvenida" layoutX="128.0" layoutY="4.0" text="Bienvenido"
-                      style="-fx-background-color: rgba(255,255,255,0.9);
-                     -fx-padding: 15;
-                     -fx-background-radius: 5;"/>
+                <Label fx:id="lblBienvenida" layoutX="128.0" layoutY="4.0" text="Bienvenido"
+                       style="-fx-background-color: rgba(255,255,255,0.9);
+              -fx-padding: 15;
+              -fx-background-radius: 5;
+              -fx-font-size: 32x;"/>
             </children></Pane>
             <Button onAction="#onCerrarSesion" text="Cerrar sesión"
                    />

@@ -12,6 +12,7 @@ public class PeliculaRepository implements PeliculaDao {
     /*
      * Implementación del DAO para la entidad Pelicula.
      */
+
     @Override
     public void guardar(Pelicula pelicula) {
         Transaction tx = null;

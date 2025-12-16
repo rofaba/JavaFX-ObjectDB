@@ -36,7 +36,7 @@ public class NuevaPeliculaController implements Initializable {
     @FXML
     public void onGuardar() {
         if (txtTitulo.getText().isEmpty() || txtDirector.getText().isEmpty()) {
-            mostrarAlerta("Error", "El título y el director son obligatorios.");
+            mostrarAlerta(Alert.AlertType.ERROR, "El título y el director son obligatorios.");
             return;
         }
 
@@ -58,9 +58,10 @@ public class NuevaPeliculaController implements Initializable {
 
         try {
             peliculaDao.guardar(pelicula);
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Pelìcula guardada correctamente.");
             cerrarVentana();
         } catch (Exception e) {
-            mostrarAlerta("Error al guardar", e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar");
         }
     }
 
@@ -80,9 +81,9 @@ public class NuevaPeliculaController implements Initializable {
      * @param mensaje El mensaje a mostrar en la alerta.
  */
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
+    private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }

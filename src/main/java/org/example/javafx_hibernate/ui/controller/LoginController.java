@@ -49,7 +49,7 @@ public class LoginController {
                 lblMensaje.setText("Error al cargar la vista.");
             }
         } else {
-            lblMensaje.setText("Usuario o contraseña incorrectos");
+            lblMensaje.setText("Usuario o contraseña incorrectos\nVerifique sus usuario y contraseña.");
         }
     }
 }
