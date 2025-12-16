@@ -21,6 +21,7 @@
                    -fx-background-position: center center;
                     -fx-background-repeat: no-repeat;
                     -fx-padding: 4;">
+
             <Label text="Panel de Administración - Películas"
                      style="-fx-background-color: rgba(255,255,255,0.9);
                         -fx-padding: 10;
@@ -33,6 +34,7 @@
                         -fx-padding: 10;
                         -fx-background-radius: 5;" />
             <Button onAction="#onCerrarSesion" text="Cerrar sesión" />
+
         </ToolBar>
     </top>
     <center>

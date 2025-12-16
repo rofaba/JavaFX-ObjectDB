@@ -11,21 +11,37 @@
 <?import javafx.scene.layout.Pane?>
 
 <BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javafx_hibernate.ui.controller.MainController"
-    prefWidth="800" prefHeight="600"
-    minWidth="800" minHeight="600"
-    maxWidth="800" maxHeight="600">
+            prefWidth="800" prefHeight="600"
+            minWidth="800" minHeight="600"
+            maxWidth="800" maxHeight="600">
     <top>
-        <ToolBar style="-fx-background-image: url('/images/fondos/2358.jpg');                    -fx-background-size: cover;                    -fx-background-position: center center;                     -fx-background-repeat: no-repeat;                     -fx-padding: 4;">
+        <ToolBar style="-fx-background-image: url('/images/fondos/2358.jpg');
+               -fx-background-size: cover;
+               -fx-background-position: center center;
+               -fx-background-repeat: no-repeat;
+               -fx-padding: 4;">
 
-            <Label style="-fx-background-color: rgba(255,255,255,0.9);                      -fx-padding: 15;                      -fx-background-radius: 5;" text="Catálogo de copias de películas" />
-            <Pane HBox.hgrow="ALWAYS">
-            <children>
-                <Label fx:id="lblBienvenida" layoutX="128.0" layoutY="4.0" style="-fx-background-color: rgba(255,255,255,0.9);                 -fx-padding: 15;                 -fx-background-radius: 5;                 -fx-font-size: 32x;                 -fx-text-fill: COLOR.white;" text="Bienvenido" />
-            </children></Pane>
-            <Button onAction="#onCerrarSesion" text="Cerrar sesión" />
+                <Label text="Catálogo de copias de películas"
+                       style="-fx-background-color: rgba(255,255,255,0.9);
+                      -fx-padding: 10;
+                      -fx-background-radius: 5;" />
+
+                <Pane HBox.hgrow="ALWAYS">
+                </Pane>
+
+                <Label fx:id="lblBienvenida" text="Usuario: "
+                       style="-fx-background-color: rgba(255,255,255,0.9);
+                      -fx-padding: 10;
+                      -fx-background-radius: 5;
+                       -fx-font-size: 18px" />
+
+                <Button onAction="#onCerrarSesion" text="Cerrar sesión" />
+
         </ToolBar>
+
     </top>
-   <center>
+
+    <center>
       <TableView fx:id="tvCopias" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colTitulo" prefWidth="350.0" text="Titulo" />

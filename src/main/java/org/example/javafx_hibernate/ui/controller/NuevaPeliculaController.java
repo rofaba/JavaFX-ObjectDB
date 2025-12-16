@@ -27,6 +27,7 @@ public class NuevaPeliculaController implements Initializable {
         // Configurar Spinner para años (ej. 1900 a 2100, valor por defecto 2023)
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1900, 2100, 2023);
+        spAnio.getEditor().setPromptText("Ej: 1999");
         spAnio.setValueFactory(valueFactory);
     }
 
