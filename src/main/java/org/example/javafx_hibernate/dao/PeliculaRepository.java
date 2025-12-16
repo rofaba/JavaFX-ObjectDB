@@ -14,31 +14,34 @@ public class PeliculaRepository implements PeliculaDao {
      */
 
     @Override
-    public void guardar(Pelicula pelicula) {
+    public void guardar(Pelicula p) {
+        Transaction tx = null;
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+
             Long count = session.createQuery(
-                            "SELECT count(p) FROM Pelicula p WHERE p.titulo = :titulo", Long.class)
-                    .setParameter("titulo", pelicula.getTitulo())
+                            "SELECT COUNT(p) FROM Pelicula p WHERE LOWER(p.titulo) = LOWER(:titulo)",
+                            Long.class
+                    ).setParameter("titulo", p.getTitulo())
                     .uniqueResult();
 
             if (count != null && count > 0) {
-                System.out.println("La película con título \"" + pelicula.getTitulo() + "\" ya existe. No se guardará.");
-                return;
+                tx.rollback();
+                throw new SaveException("Ya existe una película con el título: " + p.getTitulo());
             }
 
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.save(pelicula);
-                tx.commit();
-            } catch (Exception e) {
-                if (tx != null) tx.rollback();
-                e.printStackTrace();
-            }
+            session.save(p);
+            tx.commit();
+
+        } catch (RuntimeException e) {
+            if (tx != null) tx.rollback();
+            throw e; // importante: re-lanzar
         }
     }
-```
-/*
+
+
+    /*
      * Lista todas las películas en la base de datos.
      */
     @Override
@@ -46,5 +49,29 @@ public class PeliculaRepository implements PeliculaDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Pelicula", Pelicula.class).list();
         }
+    }
+    public class SaveException extends RuntimeException {
+        public SaveException(String message) {
+            super(message);
+        }
+    }
+    public int deleteById(Long id) {
+        Transaction tx = null;
+        Integer deletedCount = 0;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+
+            deletedCount = session.createQuery("DELETE FROM Pelicula p WHERE p.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx != null) tx.rollback();
+            throw e; // importante: re-lanzar
+        }
+
+        return deletedCount;
     }
 }

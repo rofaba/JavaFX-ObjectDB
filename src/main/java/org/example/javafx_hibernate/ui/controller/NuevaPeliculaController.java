@@ -61,7 +61,7 @@ public class NuevaPeliculaController implements Initializable {
             mostrarAlerta(Alert.AlertType.INFORMATION, "Pelìcula guardada correctamente.");
             cerrarVentana();
         } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar");
+            mostrarAlerta(Alert.AlertType.ERROR, "Pelicula ya existe en la base de datos");
         }
     }
 
