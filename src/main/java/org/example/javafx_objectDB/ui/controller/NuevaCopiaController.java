@@ -5,30 +5,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.javafx_hibernate.MainApp;
-import org.example.javafx_hibernate.config.HibernateUtil;
+import org.example.javafx_hibernate.config.JPAUtil;
 import org.example.javafx_hibernate.entity.Copia;
 import org.example.javafx_hibernate.entity.Pelicula;
 import org.example.javafx_hibernate.entity.Usuario;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class NuevaCopiaController {
 
-    @FXML
-    private TextField txtTitulo;
+    @FXML private TextField txtTitulo;
+    @FXML private ComboBox<String> cbEstado;
+    @FXML private ComboBox<String> cbSoporte;
+    @FXML private Spinner<Integer> spCantidad;
 
-    @FXML
-    private ComboBox<String> cbEstado;
-
-    @FXML
-    private ComboBox<String> cbSoporte;
-
-    @FXML
-    private Spinner<Integer> spCantidad;
-
-    private Copia copiaEnEdicion;   // null = modo NUEVA, no null = modo EDITAR
-
+    private Copia copiaEnEdicion; // null = NUEVA, no null = EDITAR
     private MainController mainController;
 
     public void setMainController(MainController mainController) {
@@ -37,18 +31,11 @@ public class NuevaCopiaController {
 
     @FXML
     private void initialize() {
-        // Valores fijos según tu comentario
         cbEstado.setItems(FXCollections.observableArrayList("BUENO", "DAÑADO"));
         cbSoporte.setItems(FXCollections.observableArrayList("DVD", "BLURAY", "VHS"));
-        spCantidad.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 1)
-        );
-
+        spCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 1));
     }
-/*    * Maneja el evento de guardar una copia.
-        Valida los campos, busca la película y crea o actualiza la copia en la base de datos.
-        También maneja la lógica de aumentar cantidad si la copia ya existe.
- */
+
     @FXML
     private void onGuardar() {
         String titulo = txtTitulo.getText() != null ? txtTitulo.getText().trim() : "";
@@ -61,65 +48,74 @@ public class NuevaCopiaController {
             return;
         }
 
-        // Usuario logueado
         Usuario usuario = MainApp.getAuthService().getUsuarioActual();
         if (usuario == null) {
             mostrarAlerta(Alert.AlertType.ERROR, "No hay usuario logueado.");
             return;
         }
 
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
+        EntityManager em = JPAUtil.em();
+        try {
+            em.getTransaction().begin();
 
             // Buscar película por título
-            Query<Pelicula> queryPelicula = session.createQuery(
-                    "FROM Pelicula p WHERE p.titulo = :titulo", Pelicula.class);
-            queryPelicula.setParameter("titulo", titulo);
-            Pelicula pelicula = queryPelicula.uniqueResult();
+            TypedQuery<Pelicula> qPeli = em.createQuery(
+                    "SELECT p FROM Pelicula p WHERE p.titulo = :titulo",
+                    Pelicula.class
+            );
+            qPeli.setParameter("titulo", titulo);
+
+            List<Pelicula> pelis = qPeli.getResultList();
+            Pelicula pelicula = pelis.isEmpty() ? null : pelis.get(0);
 
             if (pelicula == null) {
+                em.getTransaction().rollback();
                 mostrarAlerta(Alert.AlertType.ERROR, "La película con título '" + titulo + "' no existe.");
-                tx.rollback();
                 return;
             }
 
-            // Edición vs. Creación
             if (copiaEnEdicion != null) {
+                // EDITAR: traemos la copia gestionada y actualizamos campos
+                Copia copiaGestionada = em.find(Copia.class, copiaEnEdicion.getId());
+                if (copiaGestionada == null) {
+                    em.getTransaction().rollback();
+                    mostrarAlerta(Alert.AlertType.ERROR, "La copia a editar ya no existe.");
+                    return;
+                }
 
-                // session.merge()
-                Copia copiaParaActualizar = (Copia) session.merge(copiaEnEdicion);
+                copiaGestionada.setEstado(estado);
+                copiaGestionada.setSoporte(soporte);
+                copiaGestionada.setCantidad(cantidad);
 
-                // Solo se actualizan los campos modificables
-                copiaParaActualizar.setEstado(estado);
-                copiaParaActualizar.setSoporte(soporte);
-                copiaParaActualizar.setCantidad(cantidad); // Se guarda el nuevo valor ingresado
-
+                em.getTransaction().commit();
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Copia actualizada correctamente.");
 
             } else {
-
-                // Buscar si ya existe una copia idéntica (Película, Usuario, Estado, Soporte)
-                Query<Copia> copiaQuery = session.createQuery(
-                        "FROM Copia c WHERE c.pelicula = :pelicula " +
+                // NUEVA: buscar si ya existe una copia idéntica
+                TypedQuery<Copia> qCopia = em.createQuery(
+                        "SELECT c FROM Copia c " +
+                                "WHERE c.pelicula = :pelicula " +
                                 "AND c.usuario = :usuario " +
                                 "AND c.estado = :estado " +
-                                "AND c.soporte = :soporte", Copia.class);
-                copiaQuery.setParameter("pelicula", pelicula);
-                copiaQuery.setParameter("usuario", usuario);
-                copiaQuery.setParameter("estado", estado);
-                copiaQuery.setParameter("soporte", soporte);
+                                "AND c.soporte = :soporte",
+                        Copia.class
+                );
+                qCopia.setParameter("pelicula", pelicula);
+                qCopia.setParameter("usuario", usuario);
+                qCopia.setParameter("estado", estado);
+                qCopia.setParameter("soporte", soporte);
 
-                Copia copiaExistente = copiaQuery.uniqueResult();
+                List<Copia> existentes = qCopia.getResultList();
+                Copia copiaExistente = existentes.isEmpty() ? null : existentes.get(0);
 
                 if (copiaExistente != null) {
-                    // Si existe aumentamos la cantidad
                     copiaExistente.setCantidad(copiaExistente.getCantidad() + cantidad);
-                    session.update(copiaExistente);
+                    em.merge(copiaExistente);
+
+                    em.getTransaction().commit();
                     mostrarAlerta(Alert.AlertType.INFORMATION,
                             "La copia ya existía. Cantidad aumentada a " + copiaExistente.getCantidad() + ".");
                 } else {
-                    // Si no existe creamos una nueva
                     Copia nuevaCopia = new Copia();
                     nuevaCopia.setPelicula(pelicula);
                     nuevaCopia.setUsuario(usuario);
@@ -127,13 +123,12 @@ public class NuevaCopiaController {
                     nuevaCopia.setSoporte(soporte);
                     nuevaCopia.setCantidad(cantidad);
 
-                    session.persist(nuevaCopia);
+                    em.persist(nuevaCopia);
+
+                    em.getTransaction().commit();
                     mostrarAlerta(Alert.AlertType.INFORMATION, "Copia guardada correctamente.");
                 }
             }
-
-            // Commit de la transacción
-            tx.commit();
 
             // Recargar tabla en MainController
             if (mainController != null) {
@@ -143,20 +138,19 @@ public class NuevaCopiaController {
             cerrarVentana();
 
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
             e.printStackTrace();
             mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar la copia.");
+        } finally {
+            em.close();
         }
     }
 
-    /*    * Maneja el evento de cancelar la operación y cerrar la ventana.
-  */
     @FXML
     private void onCancelar() {
         cerrarVentana();
     }
-/*    * Cierra la ventana actual.
-  */
+
     private void cerrarVentana() {
         Stage stage = (Stage) txtTitulo.getScene().getWindow();
         stage.close();
@@ -169,20 +163,14 @@ public class NuevaCopiaController {
         alert.showAndWait();
     }
 
-    /*    * Establece la copia que se va a editar.
-        Rellena los campos con los datos de la copia proporcionada.
-        @param copia La copia a editar.
-  */
     public void setCopiaEnEdicion(Copia copia) {
         this.copiaEnEdicion = copia;
 
-        // Rellenar campos con los datos de la copia seleccionada
         txtTitulo.setText(copia.getPelicula().getTitulo());
-        txtTitulo.setDisable(true);  // No permite cambiar película en edición
+        txtTitulo.setDisable(true);
 
         cbEstado.setValue(copia.getEstado());
         cbSoporte.setValue(copia.getSoporte());
         spCantidad.getValueFactory().setValue(copia.getCantidad());
     }
-
 }

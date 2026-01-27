@@ -1,7 +1,7 @@
-package org.example.javafx_hibernate;
+package org.example.javafx_objectDB;
 
-import org.example.javafx_hibernate.service.AuthService;
-import org.example.javafx_hibernate.entity.Usuario;
+import org.example.javafx_objectDB.service.AuthService;
+import org.example.javafx_objectDB.entity.Usuario;
 
 public class TestLogin {
 
