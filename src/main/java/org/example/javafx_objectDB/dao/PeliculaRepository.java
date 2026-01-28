@@ -50,7 +50,7 @@ public class PeliculaRepository implements PeliculaDao {
     }
 
     @Override
-    public int deleteById(Long id) {
+    public Long deleteById(Long id) {
         EntityManager em = JPAUtil.em();
         try {
             em.getTransaction().begin();
@@ -61,7 +61,7 @@ public class PeliculaRepository implements PeliculaDao {
                     .executeUpdate();
 
             em.getTransaction().commit();
-            return deletedCount;
+            return (long) deletedCount;
 
         } catch (RuntimeException e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();

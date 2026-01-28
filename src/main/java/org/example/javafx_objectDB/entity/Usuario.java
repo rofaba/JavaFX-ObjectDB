@@ -1,6 +1,5 @@
 package org.example.javafx_objectDB.entity;
 
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,9 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-/*
-    * Entidad que representa un usuario en el sistema.
-*/
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,7 +24,8 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Copia> copias = new HashSet<>();
 
-    // Getters y setters
+    public Usuario() {}
+
     public Integer getId() { return id; }
 
     public String getNombreUsuario() { return nombreUsuario; }

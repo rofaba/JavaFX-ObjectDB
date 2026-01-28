@@ -1,8 +1,7 @@
 package org.example.javafx_objectDB.entity;
 
 import javax.persistence.*;
-/*    * Entidad que representa una copia de una película en el sistema.
- */
+
 @Entity
 @Table(name = "copia")
 public class Copia {
@@ -11,24 +10,25 @@ public class Copia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_pelicula")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pelicula", nullable = false)
     private Pelicula pelicula;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_usuario")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
     @Column(nullable = false)
-    private String estado;
+    private String estado;  // ej: "Nueva", "Usada"
 
     @Column(nullable = false)
-    private String soporte;
+    private String soporte; // ej: "DVD", "BluRay", "Digital"
 
-    @Column(name = "cantidad", nullable = false)
+    @Column(nullable = false)
     private Integer cantidad = 1;
 
-    // Getters y setters
+    public Copia() {}
+
     public Integer getId() { return id; }
 
     public Pelicula getPelicula() { return pelicula; }
@@ -43,11 +43,6 @@ public class Copia {
     public String getSoporte() { return soporte; }
     public void setSoporte(String soporte) { this.soporte = soporte; }
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
 }

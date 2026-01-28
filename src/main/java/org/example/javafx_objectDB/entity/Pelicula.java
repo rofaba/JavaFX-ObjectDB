@@ -1,34 +1,41 @@
 package org.example.javafx_objectDB.entity;
 
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "pelicula")
 public class Pelicula {
-/*    * Entidad que representa una película en el sistema.
- */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titulo;
+
     private String genero;
     private Integer anio;
-    private String imagen; // ruta relativa dentro de resources
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 2000)
     private String descripcion;
 
     private String director;
 
-    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Copia> copias = new HashSet<>();
+    // Ej: "/images/peliculas/matrix.jpg"
+    private String imagen;
 
-    // Getters y setters
-    public  Long getId() { return id; }
+    public Pelicula() {}
+
+    public Pelicula(String titulo, String genero, Integer anio, String descripcion, String director, String imagen) {
+        this.titulo = titulo;
+        this.genero = genero;
+        this.anio = anio;
+        this.descripcion = descripcion;
+        this.director = director;
+        this.imagen = imagen;
+    }
+
+    public Long getId() { return id; }
 
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -45,8 +52,6 @@ public class Pelicula {
     public String getDirector() { return director; }
     public void setDirector(String director) { this.director = director; }
 
-    public Set<Copia> getCopias() { return copias; }
-    public void setCopias(Set<Copia> copias) { this.copias = copias; }
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }
 }

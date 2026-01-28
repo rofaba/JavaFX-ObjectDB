@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import org.example.javafx_objectDB.config.JPAUtil;
 import org.example.javafx_objectDB.dao.UsuarioRepository;
 import org.example.javafx_objectDB.entity.Usuario;
+import org.example.javafx_objectDB.seed.DatabaseSeeder;
 import org.example.javafx_objectDB.service.AuthService;
 import javafx.application.Platform;
 import java.io.IOException;
@@ -40,12 +41,19 @@ public class MainApp extends Application {
             user.setContrasena("1234");
             user.setRol("USER");
 
+            Usuario user2 = new Usuario();
+            user2.setNombreUsuario("user2");
+            user2.setContrasena("1234");
+            user2.setRol("USER");
+
             repo.crear(admin);
             repo.crear(user);
+            repo.crear(user2);
 
             System.out.println("Usuarios admin y user iniciales creados en la base de datos.");
         }
-
+        //seed peliculas si la tabla esta vacia
+        DatabaseSeeder.seedPeliculasIfEmpty();
 
         //app main window
         primaryStage = stage;
