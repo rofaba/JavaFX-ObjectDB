@@ -1,9 +1,9 @@
-package org.example.javafx_hibernate.service;
+package org.example.javafx_objectDB.service;
 
 import javafx.scene.control.Alert;
-import org.example.javafx_hibernate.dao.UsuarioDao;
-import org.example.javafx_hibernate.dao.UsuarioRepository;
-import org.example.javafx_hibernate.entity.Usuario;
+import org.example.javafx_objectDB.dao.UsuarioDao;
+import org.example.javafx_objectDB.dao.UsuarioRepository;
+import org.example.javafx_objectDB.entity.Usuario;
 
 public class AuthService {
     /*

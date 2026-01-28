@@ -1,4 +1,4 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.MainApp;
-import org.example.javafx_hibernate.dao.PeliculaDao;
-import org.example.javafx_hibernate.dao.PeliculaRepository;
-import org.example.javafx_hibernate.entity.Pelicula;
+import org.example.javafx_objectDB.MainApp;
+import org.example.javafx_objectDB.dao.PeliculaDao;
+import org.example.javafx_objectDB.dao.PeliculaRepository;
+import org.example.javafx_objectDB.entity.Pelicula;
 
 import java.io.IOException;
 import java.net.URL;
@@ -75,7 +75,7 @@ public class AdminController implements Initializable {
     @FXML
     public void onNuevaPelicula() {
         try {
-            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/org/example/javafx_hibernate/nueva-pelicula-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/org/example/javafx_objectDB/nueva-pelicula-view.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Nueva Película");
             stage.initModality(Modality.APPLICATION_MODAL);

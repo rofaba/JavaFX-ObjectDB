@@ -1,10 +1,10 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.entity.Copia;
-import org.example.javafx_hibernate.entity.Pelicula;
+import org.example.javafx_objectDB.entity.Copia;
+import org.example.javafx_objectDB.entity.Pelicula;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

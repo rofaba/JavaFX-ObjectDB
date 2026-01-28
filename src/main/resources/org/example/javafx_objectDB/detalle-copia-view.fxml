@@ -11,7 +11,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.javafx_hibernate.ui.controller.DetalleCopiaController"
+            fx:controller="org.example.javafx_objectDB.ui.controller.DetalleCopiaController"
             style="-fx-background-image: url('/images/fondos/2358.jpg');
                    -fx-background-size: cover;
                    -fx-background-position: center center;

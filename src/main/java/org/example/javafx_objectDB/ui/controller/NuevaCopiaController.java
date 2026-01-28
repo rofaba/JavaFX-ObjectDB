@@ -1,14 +1,14 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.MainApp;
-import org.example.javafx_hibernate.config.JPAUtil;
-import org.example.javafx_hibernate.entity.Copia;
-import org.example.javafx_hibernate.entity.Pelicula;
-import org.example.javafx_hibernate.entity.Usuario;
+import org.example.javafx_objectDB.MainApp;
+import org.example.javafx_objectDB.config.JPAUtil;
+import org.example.javafx_objectDB.entity.Copia;
+import org.example.javafx_objectDB.entity.Pelicula;
+import org.example.javafx_objectDB.entity.Usuario;
 
 
 import javax.persistence.EntityManager;

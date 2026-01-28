@@ -1,14 +1,18 @@
-package org.example.javafx_hibernate;
+package org.example.javafx_objectDB;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.service.AuthService;
+import org.example.javafx_objectDB.config.JPAUtil;
+import org.example.javafx_objectDB.dao.UsuarioRepository;
+import org.example.javafx_objectDB.entity.Usuario;
+import org.example.javafx_objectDB.service.AuthService;
 import javafx.application.Platform;
 import java.io.IOException;
 
 public class MainApp extends Application {
+
 
     private static Stage primaryStage;
     private static AuthService authService = new AuthService();
@@ -17,8 +21,33 @@ public class MainApp extends Application {
         return authService;
     }
 
+
+
     @Override
     public void start(Stage stage) throws IOException {
+
+        //test temporal usuarios guardados en la base de datos o crear el admin
+        UsuarioRepository repo = new UsuarioRepository();
+
+        if (repo.contarUsuarios() == 0) {
+            Usuario admin = new Usuario();
+            admin.setNombreUsuario("admin");
+            admin.setContrasena("1234");
+            admin.setRol("ADMIN");
+
+            Usuario user = new Usuario();
+            user.setNombreUsuario("user");
+            user.setContrasena("1234");
+            user.setRol("USER");
+
+            repo.crear(admin);
+            repo.crear(user);
+
+            System.out.println("Usuarios admin y user iniciales creados en la base de datos.");
+        }
+
+
+        //app main window
         primaryStage = stage;
         primaryStage.setTitle("Películas - Login");
         setRoot("login-view");
@@ -33,7 +62,7 @@ public class MainApp extends Application {
 
     public static void setRoot(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                MainApp.class.getResource("/org/example/javafx_hibernate/" + fxml + ".fxml")
+                MainApp.class.getResource("/org/example/javafx_objectDB/" + fxml + ".fxml")
         );
         Scene scene = new Scene(loader.load());
         primaryStage.setScene(scene);
@@ -48,6 +77,11 @@ public class MainApp extends Application {
             return false;
         }
     }
+    @Override
+    public void stop() {
+        org.example.javafx_objectDB.config.JPAUtil.close();
+    }
+
 
 
     public static void main(String[] args) {

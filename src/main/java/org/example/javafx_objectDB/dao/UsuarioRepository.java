@@ -1,32 +1,56 @@
-package org.example.javafx_hibernate.dao;
+package org.example.javafx_objectDB.dao;
 
-import org.example.javafx_hibernate.config.JPAUtil;
-import org.example.javafx_hibernate.entity.Usuario;
+import org.example.javafx_objectDB.config.JPAUtil;
+import org.example.javafx_objectDB.entity.Usuario;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.List;
+
 
 public class UsuarioRepository implements UsuarioDao {
 
-    @Override
-    public Usuario buscarPorNombreYPassword(String nombreUsuario, String password) throws Exception {
-        EntityManager em = JPAUtil.em();
+    public Usuario buscarPorNombreYPassword(String nombre, String password) {
+        var em = JPAUtil.em();
         try {
-            // No hace falta transacción para SELECT (aunque ObjectDB lo tolera)
-            TypedQuery<Usuario> q = em.createQuery(
-                    "SELECT u FROM Usuario u " +
-                            "WHERE u.nombreUsuario = :nombre AND u.contrasena = :pass",
-                    Usuario.class
-            );
-            q.setParameter("nombre", nombreUsuario);
-            q.setParameter("pass", password);
-
-            List<Usuario> res = q.getResultList();
-            return res.isEmpty() ? null : res.get(0);
-
+            return em.createQuery(
+                            "SELECT u FROM Usuario u WHERE u.nombreUsuario = :n AND u.contrasena = :p",
+                            Usuario.class
+                    )
+                    .setParameter("n", nombre)
+                    .setParameter("p", password)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         } finally {
             em.close();
         }
     }
-}
+    public long contarUsuarios() {
+        EntityManager em = JPAUtil.em();
+        try {
+            return em.createQuery("SELECT COUNT(u) FROM Usuario u", Long.class)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    //*     * Crea un nuevo usuario en la base de datos.
+    //     * */
+
+        public void crear(Usuario u) {
+            var em = JPAUtil.em();
+            var tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.persist(u);
+                tx.commit();
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw e;
+            } finally {
+                em.close();
+            }
+        }
+
+    }
+

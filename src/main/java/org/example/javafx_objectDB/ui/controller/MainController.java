@@ -1,4 +1,4 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -9,11 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.MainApp;
-import org.example.javafx_hibernate.dao.CopiaDao;
-import org.example.javafx_hibernate.dao.CopiaRepository;
-import org.example.javafx_hibernate.entity.Copia;
-import org.example.javafx_hibernate.entity.Usuario;
+import org.example.javafx_objectDB.MainApp;
+import org.example.javafx_objectDB.dao.CopiaDao;
+import org.example.javafx_objectDB.dao.CopiaRepository;
+import org.example.javafx_objectDB.entity.Copia;
+import org.example.javafx_objectDB.entity.Usuario;
 import java.io.IOException;
 import java.util.List;
 import javafx.stage.Modality;
@@ -122,7 +122,7 @@ public class MainController {
     private void abrirDetalleCopia(Copia copia) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/javafx_hibernate/detalle-copia-view.fxml")
+                    getClass().getResource("/org/example/javafx_objectDB/detalle-copia-view.fxml")
             );
             Parent root = loader.load();
 
@@ -186,7 +186,7 @@ public class MainController {
     private void onNuevaCopia() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/javafx_hibernate/nueva-copia-view.fxml")
+                    getClass().getResource("/org/example/javafx_objectDB/nueva-copia-view.fxml")
             );
             Parent root = loader.load();
 
@@ -219,7 +219,7 @@ public class MainController {
 
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/javafx_hibernate/nueva-copia-view.fxml")
+                    getClass().getResource("/org/example/javafx_objectDB/nueva-copia-view.fxml")
             );
             Parent root = loader.load();
 

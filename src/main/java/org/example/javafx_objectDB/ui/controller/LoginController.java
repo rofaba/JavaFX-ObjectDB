@@ -1,12 +1,12 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.example.javafx_hibernate.MainApp;
-import org.example.javafx_hibernate.service.AuthService;
+import org.example.javafx_objectDB.MainApp;
+import org.example.javafx_objectDB.service.AuthService;
 
 import java.io.IOException;
 

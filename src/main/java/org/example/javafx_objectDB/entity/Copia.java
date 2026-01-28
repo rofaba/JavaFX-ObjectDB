@@ -1,4 +1,4 @@
-package org.example.javafx_hibernate.entity;
+package org.example.javafx_objectDB.entity;
 
 import javax.persistence.*;
 /*    * Entidad que representa una copia de una película en el sistema.

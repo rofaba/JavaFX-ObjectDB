@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javafx_hibernate.ui.controller.MainController"
+<BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javafx_objectDB.ui.controller.MainController"
             prefWidth="800" prefHeight="600"
             minWidth="800" minHeight="600"
             maxWidth="800" maxHeight="600">

@@ -1,7 +1,7 @@
-package org.example.javafx_hibernate.dao;
+package org.example.javafx_objectDB.dao;
 
-import org.example.javafx_hibernate.config.JPAUtil;
-import org.example.javafx_hibernate.entity.Pelicula;
+import org.example.javafx_objectDB.config.JPAUtil;
+import org.example.javafx_objectDB.entity.Pelicula;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

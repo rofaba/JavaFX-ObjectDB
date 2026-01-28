@@ -1,7 +1,7 @@
-package org.example.javafx_hibernate.dao;
+package org.example.javafx_objectDB.dao;
 
 
-import org.example.javafx_hibernate.entity.Pelicula;
+import org.example.javafx_objectDB.entity.Pelicula;
 import java.util.List;
 
 /*

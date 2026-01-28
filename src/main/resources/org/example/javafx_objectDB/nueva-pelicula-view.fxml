@@ -12,7 +12,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/24.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.javafx_hibernate.ui.controller.NuevaPeliculaController"
+      fx:controller="org.example.javafx_objectDB.ui.controller.NuevaPeliculaController"
       spacing="10">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>

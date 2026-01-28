@@ -1,12 +1,12 @@
-package org.example.javafx_hibernate.ui.controller;
+package org.example.javafx_objectDB.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.javafx_hibernate.dao.PeliculaDao;
-import org.example.javafx_hibernate.dao.PeliculaRepository;
-import org.example.javafx_hibernate.entity.Pelicula;
+import org.example.javafx_objectDB.dao.PeliculaDao;
+import org.example.javafx_objectDB.dao.PeliculaRepository;
+import org.example.javafx_objectDB.entity.Pelicula;
 
 import java.net.URL;
 import java.util.ResourceBundle;
