@@ -8,6 +8,10 @@ import javax.persistence.EntityManager;
 
 public class UsuarioRepository implements UsuarioDao {
 
+    /*     * Busca un usuario por su nombre de usuario y contraseña.
+     *     * Retorna el usuario si se encuentra, o null si no existe.
+     *     */
+    @Override
     public Usuario buscarPorNombreYPassword(String nombre, String password) {
         var em = JPAUtil.em();
         try {
@@ -24,6 +28,9 @@ public class UsuarioRepository implements UsuarioDao {
             em.close();
         }
     }
+    /*     * Cuenta el número total de usuarios en la base de datos.
+     *     */
+    @Override
     public long contarUsuarios() {
         EntityManager em = JPAUtil.em();
         try {
@@ -37,7 +44,8 @@ public class UsuarioRepository implements UsuarioDao {
     //*     * Crea un nuevo usuario en la base de datos.
     //     * */
 
-        public void crear(Usuario u) {
+    @Override
+    public void crear(Usuario u) {
             var em = JPAUtil.em();
             var tx = em.getTransaction();
             try {

@@ -21,7 +21,8 @@ public class NuevaPeliculaController implements Initializable {
     @FXML private TextField txtImagen;
 
     private final PeliculaDao peliculaDao = new PeliculaRepository();
-
+/*    * Inicializa los componentes de la vista, configurando el Spinner para el año.
+ */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Configurar Spinner para años (ej. 1900 a 2100, valor por defecto 2023)

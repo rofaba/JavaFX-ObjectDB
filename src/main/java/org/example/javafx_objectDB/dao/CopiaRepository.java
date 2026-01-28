@@ -10,6 +10,10 @@ import java.util.List;
 
 public class CopiaRepository implements CopiaDao {
 
+    /*
+        * Lista todas las copias asociadas a un usuario específico.
+     */
+
     @Override
     public List<Copia> listarPorUsuario(Usuario usuario) throws Exception {
         EntityManager em = JPAUtil.em();
@@ -27,6 +31,10 @@ public class CopiaRepository implements CopiaDao {
             em.close();
         }
     }
+/*
+        * Elimina una copia. Si la cantidad es mayor a 1, decrementa la cantidad en 1.
+        * Si la cantidad es 1, elimina la copia de la base de datos.
+     */
 
     @Override
     public void eliminarCopia(Integer id) {

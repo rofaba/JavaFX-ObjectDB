@@ -27,7 +27,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        //test temporal usuarios guardados en la base de datos o crear el admin
+        //test temporal usuarios guardados en la base de datos o crear minimo seed admin y users
         UsuarioRepository repo = new UsuarioRepository();
 
         if (repo.contarUsuarios() == 0) {
@@ -76,7 +76,7 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
     }
-    //crear funcion que compruebe la conexion con la bae de datos
+    //crear funcion que compruebe la conexion con la base de datos
     public static boolean comprobarConexionBD() {
         try {
             return authService.comprobarConexion();

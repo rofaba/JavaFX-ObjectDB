@@ -6,6 +6,7 @@ import org.example.javafx_objectDB.entity.Pelicula;
 import java.util.List;
 
 public class DatabaseSeeder {
+// Inserta datos iniciales en la tabla Pelicula si está vacía.
 
     public static void seedPeliculasIfEmpty() {
         PeliculaRepository repo = new PeliculaRepository();

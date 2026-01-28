@@ -56,6 +56,9 @@ public class MainController {
 
     private final CopiaDao copiaDao = new CopiaRepository();
 
+    /*    * Inicializa el controlador, configurando las columnas de la tabla y cargando las copias del usuario actual.
+     * También establece los manejadores de eventos para la tabla y los botones.
+     */
     @FXML
     public void initialize() {
         // Configurar columnas

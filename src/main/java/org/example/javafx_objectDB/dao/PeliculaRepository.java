@@ -8,7 +8,11 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class PeliculaRepository implements PeliculaDao {
-
+/*
+     * Guarda una nueva película en la base de datos.
+     * Antes de guardar, verifica que no exista otra película con el mismo título (ignorando mayúsculas/minúsculas).
+     * Si ya existe, lanza una RuntimeException.
+     */
     @Override
     public void guardar(Pelicula p) {
         EntityManager em = JPAUtil.em();
@@ -37,7 +41,9 @@ public class PeliculaRepository implements PeliculaDao {
             em.close();
         }
     }
-
+/*
+     * Lista todas las películas en la base de datos.
+     */
     @Override
     public List<Pelicula> listarTodas() {
         EntityManager em = JPAUtil.em();
@@ -48,7 +54,10 @@ public class PeliculaRepository implements PeliculaDao {
             em.close();
         }
     }
-
+/*
+     * Elimina una película por su ID.
+     * Retorna la cantidad de registros eliminados (0 o 1).
+     */
     @Override
     public Long deleteById(Long id) {
         EntityManager em = JPAUtil.em();

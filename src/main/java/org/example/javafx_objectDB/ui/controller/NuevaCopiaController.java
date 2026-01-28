@@ -28,14 +28,18 @@ public class NuevaCopiaController {
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
-
+/*    * Inicializa los componentes de la vista, configurando los valores del ComboBox y Spinner.
+ */
     @FXML
     private void initialize() {
         cbEstado.setItems(FXCollections.observableArrayList("BUENO", "DAÑADO"));
         cbSoporte.setItems(FXCollections.observableArrayList("DVD", "BLURAY", "VHS"));
         spCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 1));
     }
-
+/*    * Maneja el evento de guardar una copia.
+     * Valida los campos, busca la película por título y guarda o actualiza la copia en la base de datos.
+     * También maneja la lógica para evitar duplicados y actualizar cantidades.
+ */
     @FXML
     private void onGuardar() {
         String titulo = txtTitulo.getText() != null ? txtTitulo.getText().trim() : "";
